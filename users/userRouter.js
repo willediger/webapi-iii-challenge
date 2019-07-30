@@ -32,7 +32,14 @@ router.delete("/:id", validateUserId, (req, res) => {});
 
 router.put("/:id", validateUserId, validateUser, async (req, res) => {
   const updatedUser = await db.update(req.params.id, req.body);
-  res.status(200).json(updatedUser);
+  if (updatedUser) {
+    res.status(200).json(updatedUser);
+  } else {
+    next({
+      status: 500,
+      message: "The user information could not be updated."
+    });
+  }
 });
 
 //error handler
