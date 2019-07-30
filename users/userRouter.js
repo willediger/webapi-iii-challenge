@@ -28,7 +28,17 @@ router.get("/:id", validateUserId, (req, res) => {
 
 router.get("/:id/posts", validateUserId, (req, res) => {});
 
-router.delete("/:id", validateUserId, (req, res) => {});
+router.delete("/:id", validateUserId, async (req, res) => {
+  const deletedUser = await db.remove(req.params.id);
+  if (deletedUser) {
+    res.status(200).json(req.user);
+  } else {
+    next({
+      status: 500,
+      message: "The user information could not be removed."
+    });
+  }
+});
 
 router.put("/:id", validateUserId, validateUser, async (req, res) => {
   const updatedUser = await db.update(req.params.id, req.body);
