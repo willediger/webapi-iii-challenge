@@ -7,7 +7,17 @@ router.post("/", validateUser, (req, res) => {});
 
 router.post("/:id/posts", validateUserId, validatePost, (req, res) => {});
 
-router.get("/", (req, res) => {});
+router.get("/", async (req, res) => {
+  try {
+    const users = await db.get();
+    res.status(200).json(users);
+  } catch {
+    next({
+      status: 500,
+      message: "The users could not be retrieved."
+    });
+  }
+});
 
 router.get("/:id", validateUserId, (req, res) => {
   res.status(200).json(req.user);
@@ -50,8 +60,8 @@ async function validateUserId(req, res, next) {
   }
 }
 
-async function validateUser(req, res, next) {}
+function validateUser(req, res, next) {}
 
-async function validatePost(req, res, next) {}
+function validatePost(req, res, next) {}
 
 module.exports = router;
