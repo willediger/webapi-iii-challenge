@@ -5,7 +5,14 @@ const db = require("./userDb.js");
 
 router.post("/", validateUser, async (req, res) => {
   const user = await db.insert(req.body);
-  res.status(200).json(user);
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    next({
+      status: 500,
+      message: "The user could not be added."
+    });
+  }
 });
 
 router.post("/:id/posts", validateUserId, validatePost, async (req, res) => {});
