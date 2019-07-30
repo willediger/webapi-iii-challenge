@@ -3,9 +3,12 @@ const express = require("express");
 const router = express.Router();
 const db = require("./userDb.js");
 
-router.post("/", validateUser, (req, res) => {});
+router.post("/", validateUser, async (req, res) => {
+  const user = await db.insert(req.body);
+  res.status(200).json(user);
+});
 
-router.post("/:id/posts", validateUserId, validatePost, (req, res) => {});
+router.post("/:id/posts", validateUserId, validatePost, async (req, res) => {});
 
 router.get("/", async (req, res) => {
   try {
