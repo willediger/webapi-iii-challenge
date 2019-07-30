@@ -60,7 +60,23 @@ async function validateUserId(req, res, next) {
   }
 }
 
-function validateUser(req, res, next) {}
+function validateUser(req, res, next) {
+  if (req.body) {
+    if (req.body.name) {
+      next();
+    } else {
+      next({
+        status: 400,
+        message: "missing required name field"
+      });
+    }
+  } else {
+    next({
+      status: 400,
+      message: "missing user data"
+    });
+  }
+}
 
 function validatePost(req, res, next) {}
 
