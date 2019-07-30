@@ -30,11 +30,14 @@ router.get("/:id/posts", validateUserId, (req, res) => {});
 
 router.delete("/:id", validateUserId, (req, res) => {});
 
-router.put("/:id", validateUserId, (req, res) => {});
+router.put("/:id", validateUserId, validateUser, async (req, res) => {
+  const updatedUser = await db.update(req.params.id, req.body);
+  res.status(200).json(updatedUser);
+});
 
 //error handler
 router.use((err, req, res, next) => {
-  console.error(err);
+  // console.error(err);
 
   res.status(err.status).json({ message: err.message });
 });
@@ -45,7 +48,6 @@ async function validateUserId(req, res, next) {
   try {
     const { id } = req.params;
     const user = await db.getById(id);
-    console.log(user, id);
     if (user) {
       req.user = user;
       next();
