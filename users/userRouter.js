@@ -10,7 +10,7 @@ router.post("/:id/posts", validateUserId, validatePost, (req, res) => {});
 router.get("/", (req, res) => {});
 
 router.get("/:id", validateUserId, (req, res) => {
-  res.send(200).json(req.user);
+  res.status(200).json(req.user);
 });
 
 router.get("/:id/posts", validateUserId, (req, res) => {});
@@ -32,6 +32,7 @@ async function validateUserId(req, res, next) {
   try {
     const { id } = req.params;
     const user = await db.getById(id);
+    console.log(user, id);
     if (user) {
       req.user = user;
       next();
