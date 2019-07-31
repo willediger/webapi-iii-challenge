@@ -104,7 +104,7 @@ async function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  if (req.body) {
+  if (req.body && Object.keys(req.body).length > 0) {
     if (req.body.name) {
       next();
     } else {
@@ -122,7 +122,7 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  if (req.body) {
+  if (req.body && Object.keys(req.body).length > 0) {
     if (req.body.text) {
       next();
     } else {
