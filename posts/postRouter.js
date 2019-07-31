@@ -23,6 +23,25 @@ router.put("/:id", (req, res) => {});
 
 // custom middleware
 
-function validatePostId(req, res, next) {}
+async function validatePostId(req, res, next) {
+  try {
+    const { id } = req.params;
+    const post = await db.getById(id);
+    if (post) {
+      req.post = post;
+      next();
+    } else {
+      next({
+        status: 404,
+        message: "The post with the specified ID does not exist."
+      });
+    }
+  } catch {
+    next({
+      status: 500,
+      message: "The post information could not be retrieved."
+    });
+  }
+}
 
 module.exports = router;
