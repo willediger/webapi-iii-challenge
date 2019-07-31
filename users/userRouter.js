@@ -81,15 +81,7 @@ router.put("/:id", validateUserId, validateUser, async (req, res) => {
   }
 });
 
-//error handler
-router.use((err, req, res, next) => {
-  // console.error(err);
-
-  res.status(err.status).json({ message: err.message });
-});
-
 //custom middleware
-
 async function validateUserId(req, res, next) {
   try {
     const { id } = req.params;

@@ -15,6 +15,13 @@ server.get("/", (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
 
+//error handler
+server.use((err, req, res, next) => {
+  // console.error(err);
+
+  res.status(err.status).json({ message: err.message });
+});
+
 //custom middleware
 
 function logger(req, res, next) {
